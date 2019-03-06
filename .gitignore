@@ -6,3 +6,7 @@
 *.h5
 *.json
 output/
+weights/*
+*.png
+*.jpg
+*.jpeg

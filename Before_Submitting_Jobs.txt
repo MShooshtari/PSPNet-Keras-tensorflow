@@ -1,0 +1,7 @@
+module load nixpkgs/16.09 gcc/5.4.0 cuda/8.0.44 cudnn/6.0 opencv/3.3.0 python/3.6.3 bazel/0.5.2
+virtualenv env1
+source ./env1/bin/activate
+pip3 install tensorflow-gpu numpy
+pip install scipy
+pip install requests
+pip install pandas
