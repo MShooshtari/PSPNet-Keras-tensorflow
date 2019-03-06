@@ -10,3 +10,4 @@ weights/*
 *.png
 *.jpg
 *.jpeg
+outputs/*
