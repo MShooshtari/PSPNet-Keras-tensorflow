@@ -12,3 +12,4 @@ weights/*
 *.jpeg
 outputs/*
 env1/*
+example_results/*
