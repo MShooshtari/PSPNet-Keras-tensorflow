@@ -51,7 +51,7 @@ List of arguments:
  -ms --multi_scale - Predict on multiscale images
 ```
 ## Keras results:
-![Original](example_images/Tree_ID_161639.jpg)
+![Original](example_images/Tree_ID_161639.png)
 ![New](example_results/Tree_ID_161639_seg.jpg)
 ![New](example_results/Tree_ID_161639_seg_blended.jpg)
 ![New](example_results/Tree_ID_161639_probs.jpg)
@@ -61,7 +61,7 @@ List of arguments:
 ![New](example_results/Tree_ID_161640_seg_blended.jpg)
 ![New](example_results/Tree_ID_161640_probs.jpg)
 
-![Original](example_images/Tree_ID_163639.jpg)
+![Original](example_images/Tree_ID_163639.png)
 ![New](example_results/Tree_ID_163639_seg.jpg)
 ![New](example_results/Tree_ID_163639_seg_blended.jpg)
 ![New](example_results/Tree_ID_163639_probs.jpg)
@@ -71,7 +71,7 @@ List of arguments:
 ![New](example_results/Tree_ID_164659_seg_blended.jpg)
 ![New](example_results/Tree_ID_164659_probs.jpg)
 
-![Original](example_images/Tree_ID_164660.jpg)
+![Original](example_images/Tree_ID_164660.png)
 ![New](example_results/Tree_ID_164660_seg.jpg)
 ![New](example_results/Tree_ID_164660_seg_blended.jpg)
 ![New](example_results/Tree_ID_164660_probs.jpg)
