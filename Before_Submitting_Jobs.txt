@@ -5,3 +5,4 @@ pip3 install tensorflow-gpu numpy
 pip install scipy
 pip install requests
 pip install pandas
+pip install keras
