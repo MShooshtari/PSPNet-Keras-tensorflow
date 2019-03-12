@@ -3,9 +3,9 @@
 #SBATCH --mem=12800M        # memory per node
 #SBATCH --time=00:05:00
 #SBATCH --job-name=PSPNet
+#SBATCH --exclusive
 #SBATCH --output=outputs/%x-%j.out
-
-######################## tttttSBATCH --gres=gpu:4
+#SBATCH --gres=gpu:4
 module load nixpkgs/16.09 gcc/5.4.0 cuda/8.0.44 cudnn/6.0 opencv/3.3.0 python/3.6.3 bazel/0.5.2
 virtualenv --no-download $SLURM_TMPDIR/env
 source $SLURM_TMPDIR/env/bin/activate
