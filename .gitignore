@@ -11,3 +11,4 @@ weights/*
 *.jpg
 *.jpeg
 outputs/*
+env1/*
