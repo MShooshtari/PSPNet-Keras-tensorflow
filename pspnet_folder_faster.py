@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 from __future__ import print_function
 import os
 from os.path import splitext, join, isfile, isdir, basename
@@ -13,6 +14,7 @@ from glob import glob
 from python_utils import utils
 from python_utils.preprocessing import preprocess_img
 from keras.utils.generic_utils import CustomObjectScope
+from PIL import Image
 
 # These are the means for the ImageNet pretrained ResNet
 DATA_MEAN = np.array([[[123.68, 116.779, 103.939]]])  # RGB order
@@ -139,6 +141,32 @@ class PSPNet101(PSPNet):
         PSPNet.__init__(self, nb_classes=nb_classes, resnet_layers=101,
                         input_shape=input_shape, weights=weights)
 
+# def create_cityscapes_label_colormap():
+#     """Creates a label colormap used in CITYSCAPES segmentation benchmark.
+#     Returns:
+#     A colormap for visualizing segmentation results.
+#     """
+#     colormap = np.zeros((256, 3), dtype=np.uint8)
+#     colormap[0] = [128, 64, 128] # road
+#     colormap[1] = [244, 35, 232] # sidewalk
+#     colormap[2] = [70, 70, 70] # building
+#     colormap[3] = [102, 102, 156] # wall
+#     colormap[4] = [190, 153, 153] # fence
+#     colormap[5] = [153, 153, 153] # pole
+#     colormap[6] = [250, 170, 30] # traffic light
+#     colormap[7] = [220, 220, 0] # traffic sign
+#     colormap[8] = [107, 142, 35] # vegetation
+#     colormap[9] = [152, 251, 152] # terrain
+#     colormap[10] = [70, 130, 180] # sky
+#     colormap[11] = [220, 20, 60] # person
+#     colormap[12] = [255, 0, 0] # rider
+#     colormap[13] = [0, 0, 142] # car
+#     colormap[14] = [0, 0, 70] # truck
+#     colormap[15] = [0, 60, 100] # bus
+#     colormap[16] = [0, 80, 100] # train
+#     colormap[17] = [0, 0, 230] # motorcycle
+#     colormap[18] = [119, 11, 32] # bicycle
+# return colormap
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -160,6 +188,11 @@ if __name__ == "__main__":
                         help="Whether the network should predict on both image and flipped image.")
 
     args = parser.parse_args()
+
+
+    # Open the list of processed images.
+    processedListFile = 'List_of_Processed_Images.txt'
+    processedImages = [line.rstrip('\n') for line in open(processedListFile)]
 
     # Handle input and output args
 
@@ -198,29 +231,55 @@ if __name__ == "__main__":
                 768, 480), weights=args.weights)
 
         for i, img_path in enumerate(images):
-            print("Processing image {} / {}".format(i+1,len(images)))
-            img = misc.imread(img_path, mode='RGB')
-            cimg = misc.imresize(img, (args.input_size, args.input_size))
+            imageName = os.path.basename(img_path).replace('.png', '')
+            if (not imageName in processedImages):
+                print("Processing image {} / {}".format(i+1,len(images)))
+                img = misc.imread(img_path, mode='RGB')
+                cimg = misc.imresize(img, (args.input_size, args.input_size))
 
-            probs = pspnet.predict(img, args.flip)
-            print(type(probs))
-            print(probs.shape)
-            exit()
+                probs = pspnet.predict(img, args.flip)
 
-            cm = np.argmax(probs, axis=2)
-            pm = np.max(probs, axis=2)
+                cm = np.argmax(probs, axis=2)
+                pm = np.max(probs, axis=2)
 
-            color_cm = utils.add_color(cm)
-            # color cm is [0.0-1.0] img is [0-255]
-            alpha_blended = 0.5 * color_cm * 255 + 0.5 * img
+                color_cm = utils.add_color(cm)
+                # color cm is [0.0-1.0] img is [0-255]
+                alpha_blended = 0.5 * color_cm * 255 + 0.5 * img
 
-            if args.glob_path:
-                input_filename, ext = splitext(basename(img_path))
-                filename = join(args.output_path, input_filename)
-            else:
-                filename, ext = splitext(args.output_path)
+                if args.glob_path:
+                    input_filename, ext = splitext(basename(img_path))
+                    filename = join(args.output_path, input_filename)
+                else:
+                    filename, ext = splitext(args.output_path)
 
-            misc.imsave(filename + "_seg_read" + ext, cm)
-            misc.imsave(filename + "_seg" + ext, color_cm)
-            misc.imsave(filename + "_probs" + ext, pm)
-            misc.imsave(filename + "_seg_blended" + ext, alpha_blended)
+
+                maxImage = np.amax(probs)
+                finalImageList = []
+                
+                for classIndex in range(19):
+                    # print('---------------------')
+                    finalImage = np.zeros((640, 640))
+                    classImage = probs[:,:,classIndex]
+                    classImage = np.round(classImage, 2)
+                    finalImage[classImage>0] = classIndex
+                    finalImageList.append(finalImage)
+
+                    # print(classImage)
+                    # print(type(classImage))
+                    # print(finalImage)
+
+                    im = Image.fromarray((classImage*255).astype('uint8'))
+                    # print(im)
+                    # print(type(im))
+                    # print('*****')
+                    # im.save(filename + '_class_'+str(classIndex)+'_' + ext)
+
+                finalImageIndices = np.argmax(finalImageList, axis=0)
+                im = Image.fromarray(finalImageIndices.astype('uint8'))
+                im.save(filename+'_classes'+ext)
+                # exit()
+
+                # misc.imsave(filename + "_seg_read" + ext, cm)
+                # misc.imsave(filename + "_seg" + ext, color_cm)
+                # misc.imsave(filename + "_probs" + ext, pm)
+                # misc.imsave(filename + "_seg_blended" + ext, alpha_blended)
