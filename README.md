@@ -1,5 +1,27 @@
 # Keras implementation of [PSPNet(caffe)](https://github.com/hszhao/PSPNet)
 
+# Classes:
+##     colormap = np.zeros((256, 3), dtype=np.uint8)
+##     colormap[0] = [128, 64, 128] # road
+##     colormap[1] = [244, 35, 232] # sidewalk
+##     colormap[2] = [70, 70, 70] # building
+##     colormap[3] = [102, 102, 156] # wall
+##     colormap[4] = [190, 153, 153] # fence
+##     colormap[5] = [153, 153, 153] # pole
+##     colormap[6] = [250, 170, 30] # traffic light
+##     colormap[7] = [220, 220, 0] # traffic sign
+##     colormap[8] = [107, 142, 35] # vegetation
+##     colormap[9] = [152, 251, 152] # terrain
+##     colormap[10] = [70, 130, 180] # sky
+##     colormap[11] = [220, 20, 60] # person
+##     colormap[12] = [255, 0, 0] # rider
+##     colormap[13] = [0, 0, 142] # car
+##     colormap[14] = [0, 0, 70] # truck
+##     colormap[15] = [0, 60, 100] # bus
+##     colormap[16] = [0, 80, 100] # train
+##     colormap[17] = [0, 0, 230] # motorcycle
+##     colormap[18] = [119, 11, 32] # bicycle
+
 Implemented Architecture of Pyramid Scene Parsing Network in Keras.
 
 For the best compability please use Python3.5
@@ -107,26 +129,5 @@ List of arguments:
 
 
 
-# Classes:
-##     colormap = np.zeros((256, 3), dtype=np.uint8)
-##     colormap[0] = [128, 64, 128] # road
-##     colormap[1] = [244, 35, 232] # sidewalk
-##     colormap[2] = [70, 70, 70] # building
-##     colormap[3] = [102, 102, 156] # wall
-##     colormap[4] = [190, 153, 153] # fence
-##     colormap[5] = [153, 153, 153] # pole
-##     colormap[6] = [250, 170, 30] # traffic light
-##     colormap[7] = [220, 220, 0] # traffic sign
-##     colormap[8] = [107, 142, 35] # vegetation
-##     colormap[9] = [152, 251, 152] # terrain
-##     colormap[10] = [70, 130, 180] # sky
-##     colormap[11] = [220, 20, 60] # person
-##     colormap[12] = [255, 0, 0] # rider
-##     colormap[13] = [0, 0, 142] # car
-##     colormap[14] = [0, 0, 70] # truck
-##     colormap[15] = [0, 60, 100] # bus
-##     colormap[16] = [0, 80, 100] # train
-##     colormap[17] = [0, 0, 230] # motorcycle
-##     colormap[18] = [119, 11, 32] # bicycle
-#
+
 
